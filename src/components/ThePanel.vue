@@ -2,7 +2,7 @@
   <b-container class="panel">
     <b-row
       class="my-2"
-      v-for="(index, option) in options"
+      v-for="(option) in options"
       :key="option.id"
       v-model="option.id"
     >
