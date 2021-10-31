@@ -1,9 +1,17 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>
-    </div>
-    <router-view/>
+    <b-container class="app">
+      <b-row align-h="start">
+        <b-col>
+          <div id="nav">
+            <router-link :to="{ name: 'Welcome' }">Welcome</router-link>
+          </div>
+        </b-col>
+      </b-row>
+      <b-row>
+        <router-view :key="$route.path" />
+      </b-row>
+    </b-container>
   </div>
 </template>
 
@@ -14,10 +22,14 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+
+  .container.app {
+    max-width: 35%;
+  }
 }
 
 #nav {
-  padding: 30px;
+  padding: 3px;
 
   a {
     font-weight: bold;

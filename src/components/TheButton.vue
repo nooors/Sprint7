@@ -36,6 +36,7 @@
 <script>
 export default {
   name: "TheButton",
+  props: ['buttonId'],
   data() {
     return {
       quantity: 1,
@@ -46,7 +47,7 @@ export default {
       if (this.quantity <= 1) {
         this.quantity = 1;
       }
-      this.$emit("addExtras", this.quantity);
+      this.$emit("addExtras", this.quantity, this.buttonId);
     },
     modal() {
       this.$refs["my-modal"].show();
@@ -77,4 +78,8 @@ export default {
 .icon:hover {
   cursor: pointer;
 }
+/* input.form-control {
+  width: 40%;
+  text-align: left
+} */
 </style>

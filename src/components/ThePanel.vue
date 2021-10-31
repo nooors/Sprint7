@@ -1,24 +1,25 @@
 <template>
-  <b-container class="panel">
+  <div class="panel">
     <b-row
-      class="my-2"
-      v-for="(option) in options"
+      class="my-3"
+      v-for="(option, index) in options"
+      
       :key="option.id"
       v-model="option.id"
     >
-      <b-col sm-9>
+      <b-col sm-9 justfy-content-center>
         <div>{{ option.text }}</div>
       </b-col>
-      <b-col sm-3>
-        <TheButton @addExtras="sendExtras()" 
-        :id="option.id" />
+      <b-col sm-3 justify-content-center>
+        <TheButton @addExtras="sendExtras" 
+        :buttonId="index" />
       </b-col>
     </b-row>
 
     <b-row>
       <!-- <TheButton @addExtras="saveExtras" /> -->
     </b-row>
-  </b-container>
+  </div>
 </template>
 
 <script>
@@ -31,31 +32,38 @@ export default {
   props: {},
   data() {
     return {
-      webExtra: 1,
       options: [
         { id: "pages", text: "Número de pàgines", value: 1 },
         { id: "languages", text: "Número d'idiomes", value: 1 },
       ],
-      dataExtras: [1, 1],
+      pages: 1,
+      languages: 1,
     };
   },
 
   computed: {},
 
   methods: {
-    sendExtras(dataButton) {
-      this.options.value == "pages"
-        ? (this.dataExtras[0] = dataButton)
-        : (this.dataExtras[1] = dataButton);
-      this.$emit("extrasPanel", this.dataExtras);
-      console.log(this.options.value)
+    sendExtras(amountButton, indexButton) {
+      if(indexButton === 0){
+       this.pages = amountButton;
+      }else if(indexButton === 1){
+        this.languages = amountButton;
+      }
+      this.$emit( 'extrasPanel', this.pages, this.languages );
+      console.log(`quantitat${amountButton}${typeof amountButton}`);
+      console.log('botó' + indexButton + typeof indexButton);
+      console.log(this.pages);
+      console.log(this.languages);
     },
-
-    // for(let i = 0; i < this.options.length-1; i++){
-    //   this.dataExtras[i] = this.options[i].value
-    // }
   },
 };
 </script>
 
-<style></style>
+<style lang="sass">
+  .panel
+    border: 2px solid black
+    border-radius: 1rem
+    padding: 2rem 1rem
+    margin: 1rem 
+    </style>

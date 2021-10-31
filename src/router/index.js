@@ -10,6 +10,11 @@ const routes = [
     name: 'Home',
     component: Home
   },
+  {
+    path: '/welcome/',
+    name: 'Welcome',
+    component: () => import(/* webpackChunkName: "welcome" */ '../views/Welcome.vue')
+  }
   // {
   //   path: '/about',
   //   name: 'About',
@@ -23,7 +28,8 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
+  mode: 'history'
 })
 
 export default router
