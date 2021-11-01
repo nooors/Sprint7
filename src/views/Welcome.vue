@@ -1,6 +1,6 @@
 <template>
   <b-container>
-    <b-row my- 5 py-3>
+    <b-row my-5 py-3>
       <b-col>
         <h1>Benvingut a la app de pressupostos.</h1>
       </b-col>
@@ -14,7 +14,7 @@
     </b-row>
     <b-row align-h="end">
       <b-col>
-        <router-link to="/"
+        <router-link to="/home"
           ><b-button>
             Accedir
           </b-button>
@@ -25,7 +25,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "Welcome"
+};
 </script>
 
 <style></style>

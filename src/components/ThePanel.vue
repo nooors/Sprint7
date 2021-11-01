@@ -12,12 +12,9 @@
       </b-col>
       <b-col sm-3 justify-content-center>
         <TheButton @addExtras="sendExtras" 
-        :buttonId="index" />
+        :buttonId="index"
+        :modalText="modalMessage[index].text" />
       </b-col>
-    </b-row>
-
-    <b-row>
-      <!-- <TheButton @addExtras="saveExtras" /> -->
     </b-row>
   </div>
 </template>
@@ -38,10 +35,13 @@ export default {
       ],
       pages: 1,
       languages: 1,
+      modalMessage: [
+        { text: "Indica el número de pàgines que vols que tingui el teu lloc web" },
+        { text: "Indica a quants idiomes vols tradïr el teu lloc web"},
+      ]
+      
     };
   },
-
-  computed: {},
 
   methods: {
     sendExtras(amountButton, indexButton) {
@@ -56,6 +56,9 @@ export default {
       console.log(this.pages);
       console.log(this.languages);
     },
+    showTextModal(index) {
+      
+    }
   },
 };
 </script>
@@ -65,5 +68,8 @@ export default {
     border: 2px solid black
     border-radius: 1rem
     padding: 2rem 1rem
-    margin: 1rem 
+    margin: 1rem
+    transform: scale(0)
+    transition: 3000ms ease-in-out
+    transform: scale(1)
     </style>

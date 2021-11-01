@@ -4,7 +4,6 @@
       <b-row align-h="start">
         <b-col>
           <div id="nav">
-            <router-link :to="{ name: 'Welcome' }">Welcome</router-link>
           </div>
         </b-col>
       </b-row>

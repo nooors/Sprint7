@@ -25,9 +25,10 @@
       @click="modal"
       variant="secondary"
     ></b-icon>
-    <b-modal ref="my-modal" hide-footer title="Using Component Methods">
+    <b-modal ref="my-modal" centered
+    hide-footer hide-header>
       <div class="d-block text-center">
-        <h3>Hello From My Modal!</h3>
+        <h4>{{ modalText }}</h4>
       </div>
     </b-modal>
   </div>
@@ -36,7 +37,7 @@
 <script>
 export default {
   name: "TheButton",
-  props: ['buttonId'],
+  props: ['buttonId', 'modalText'],
   data() {
     return {
       quantity: 1,
@@ -52,6 +53,9 @@ export default {
     modal() {
       this.$refs["my-modal"].show();
     },
+    // selectModal() {
+    //   this.$emit("modalSelectText")
+    // }
   },
 };
 </script>

@@ -1,44 +1,46 @@
 <template>
-  <b-row align-h="start">
-    <b-form-group
-      label="Individual stacked checkboxes (default)"
-      v-slot="{ ariaDescribedby }"
-    >
-      <b-row
-        align-h="start"
-        v-for="(option, index) in options"
-        :key="option.value"
+  <div>
+    <GoBack />
+    <b-row align-h="start">
+      <b-form-group
+        label="Individual stacked checkboxes (default)"
+        v-slot="{ ariaDescribedby }"
       >
-        <b-form-checkbox
-          v-model="selected"
-          @change="whichIs(index)"
-          :value="option.value"
-          :aria-describedby="ariaDescribedby"
-          name="flavour-3a"
+        <b-row
+          align-h="start"
+          v-for="(option, index) in options"
+          :key="option.value"
         >
-          {{ option.text }}
-        </b-form-checkbox>
-        <b-row align-h="start" v-show="option.panel">
-          <ThePanel @extrasPanel="dataPanel" />
+          <b-form-checkbox
+            v-model="selected"
+            @change="whichIs(index)"
+            :value="option.value"
+            :aria-describedby="ariaDescribedby"
+            name="flavour-3a"
+          >
+            {{ option.text }}
+          </b-form-checkbox>
+          <b-row align-h="start" v-show="option.panel">
+            <ThePanel @extrasPanel="dataPanel" />
+          </b-row>
         </b-row>
-      </b-row>
-    </b-form-group>
-    Preu: {{ totalBasic }}
+      </b-form-group>
 
-    <div class="total_final">
-      Total
-    </div>
-  </b-row>
+      <div class="total_final">Preu: {{ total }}</div>
+    </b-row>
+  </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import ThePanel from "../components/ThePanel.vue";
+import GoBack from "@/components/GoBack.vue";
 
 export default {
   name: "Home",
   components: {
     ThePanel,
+    GoBack,
   },
   data() {
     return {
@@ -57,7 +59,7 @@ export default {
     };
   },
   computed: {
-    totalBasic() {
+    total() {
       if (this.selected.length != 0) {
         return (
           this.selected.reduce((total, amount) => total + amount) +
@@ -89,6 +91,4 @@ export default {
   },
 };
 </script>
-<style lang="sass" scoped>
-
-</style>
+<style lang="sass" scoped></style>
