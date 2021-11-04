@@ -1,6 +1,6 @@
 <template>
   <b-container>
-    <b-row my-5 py-3>
+    <b-row class="mt-5 mb-3">
       <b-col>
         <h1>Benvingut a la app de pressupostos.</h1>
       </b-col>
@@ -12,8 +12,8 @@
         magnam ipsum neque. Obcaecati odit praesentium reiciendis tenetur aut!
       </b-col>
     </b-row>
-    <b-row align-h="end">
-      <b-col>
+    <b-row align-h="end" class="mt-5">
+      <b-col class="d-flex justify-content-end">
         <router-link to="/home"
           ><b-button>
             Accedir

@@ -1,6 +1,6 @@
 <template>
   <span class="go-back">
-    <b-button size="sm" variant="secondary" @click="goback">enrere</b-button>
+    <button size="sm" variant="secondary" @click="goback"><<< enrere</button>
   </span>
 </template>
 
@@ -14,4 +14,13 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="sass">
+.go-back
+  button 
+    border: 0
+    background-color: transparent
+    font-size: .9rem !important
+    &:hover
+      color: #6c757d
+
+</style>

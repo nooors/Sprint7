@@ -1,12 +1,6 @@
 <template>
   <div id="app">
     <b-container class="app">
-      <b-row align-h="start">
-        <b-col>
-          <div id="nav">
-          </div>
-        </b-col>
-      </b-row>
       <b-row>
         <router-view :key="$route.path" />
       </b-row>
@@ -23,20 +17,8 @@
   color: #2c3e50;
 
   .container.app {
-    max-width: 35%;
+    max-width: 70%;
   }
 }
 
-#nav {
-  padding: 3px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
 </style>

@@ -1,4 +1,5 @@
 <template>
+
   <div class="button">
     <b-button
       size="sm"
@@ -9,7 +10,7 @@
     >
       +
     </b-button>
-    <b-form inline>
+    <b-form>
       <b-form-input class="quantity" type="text" v-model="quantity" />
     </b-form>
     <b-button

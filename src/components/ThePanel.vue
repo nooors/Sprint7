@@ -7,10 +7,10 @@
       :key="option.id"
       v-model="option.id"
     >
-      <b-col sm-9 justfy-content-center>
+      <b-col>
         <div>{{ option.text }}</div>
       </b-col>
-      <b-col sm-3 justify-content-center>
+      <b-col>
         <TheButton @addExtras="sendExtras" 
         :buttonId="index"
         :modalText="modalMessage[index].text" />
