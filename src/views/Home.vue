@@ -1,4 +1,5 @@
 <template>
+<!-- Header -->
   <div class="home">
     <b-row class="text-left mt-3">
       <b-col>
@@ -8,18 +9,20 @@
     </b-row>
 
     <b-row>
+      <!-- Services select form -->
       <b-col class="form">
         <b-form @submit="saveQuote">
           <b-form-group v-slot="{ ariaDescribedby }">
             <b-row
               align-h="start"
               v-for="(option, index) in options"
-              :key="option.value"
+              :key="option.id"
             >
               <b-col class="d-flex justify-content-start">
                 <b-form-checkbox
                   v-model="selected"
                   @change="whichIs(index)"
+
                   :value="index"
                   :aria-describedby="ariaDescribedby"
                   name="flavour-3a"
@@ -76,7 +79,7 @@
         </b-row>
       </b-col>
       <b-col class="quotes">
-        <the-quotes :dataQuotes="orderBy" @sortQuote="sortedBy" />
+        <the-quotes :dataQuotes="quote" @sortQuote="sortedBy" />
       </b-col>
     </b-row>
   </div>
@@ -97,21 +100,21 @@ export default {
   },
   data() {
     return {
-      selected: [],
-      options: [
-        { text: "Una pàgina web (500 €)", value: 500, panel: false },
-        { text: "Una consultoria SEO (300 €)", value: 300, panel: false },
+      selected: [], // Store the index of selected fields
+      options: [   // Data for select form
+        { id:1, text: "Una pàgina web (500 €)", value: 500, panel: false },
+        { id:2, text: "Una consultoria SEO (300 €)", value: 300, panel: false },
         {
-          text: "Una campanya de Google Ads (200 €)",
+          id:3, text: "Una campanya de Google Ads (200 €)",
           value: 200,
           panel: false,
         },
       ],
-      pages: 1,
-      languages: 1,
-      formQuotes: ["Nom del pressupost", "Usuari"],
-      quoteData: [],
-      quote: [],
+      pages: 1,    // Data from The Panel component
+      languages: 1,   // Data from The Panel component 
+      formQuotes: ["Nom del pressupost", "Usuari"],    // Data for input labels
+      quoteData: [],    // Data from input form
+      quote: [],   // Array that stores the saved quotes. Each object represents one quote
       filtersort: "",
     };
   },
@@ -130,9 +133,9 @@ export default {
         return 0;
       }
     },
-    orderBy() {
-      return this.quote;
-    },
+    // orderBy() {
+    //   return this.quote;
+    // },  // Trying to update data from The Panel component
   },
   methods: {
     dataPanel(pages, languages) {
@@ -168,40 +171,30 @@ export default {
           date: new Date(),
         };
         this.quote.push(quote);
-        console.log(`presupostos guardats: ${this.quote}`);
         this.resetForm();
       }
     },
     sortedBy(value) {
-      console.log(`valor de l'emit: ${value}`);
       if (value == "reset") {
         this.orderBy = this.quote;
-        console.log(this.orderBy);
       }
     },
     isValidated() {
-      console.log("Ha intentat validar");
-      if (!this.selected.length == 0 && this.quoteData.length == 2) {
-        console.log("diu tot bé");
-        console.log(this.selected);
-        console.log(this.quoteData);
+      if (!this.selected.length == 0 && this.quoteData.length == 2 &&  !this.quote.includes(this.quoteData[0])) {
         return true;
-      } else {
-        console.log("diu error");
-        console.log(this.selected);
-        console.log(this.quoteData);
+      } else {  
         return false;
       }
     },
     resetForm() {
       this.selected = [];
       this.quoteData = [];
-      console.log("métode reset");
-      console.log(this.options[0].panel);
+      this.languages = 1;
+      this.pages = 1;
       if (this.options[0].panel == true) {
         this.options[0].panel = false;
       }
-      console.log(this.options[0].panel);
+      console.log(`resultat reset ${this.options[0].panel}`);
     },
   },
 };

@@ -1,24 +1,30 @@
 <template>
-  <div>
+  <div v-if="dataQuotes.length">
     <b-row class="mb-2">
       <b-col class="d-flex justify-content-start">
         Ordena els pressupostos
+        <!-- Botons per ordenar els pressupostos -->
       </b-col>
     </b-row>
     <b-row class="buttons mb-2" size="sm">
       <b-col class="d-flex justify-content-start">
-        <b-button class="mr-2" size="sm" @click="sortquote('alpha')"
+        <b-button class="mr-2" size="sm" @click="quotesOrded('alpha')"
           >alfabèticament</b-button
         >
-        <b-button class="mr-2" size="sm" @click="sortquote('date')"
+        <b-button class="mr-2" size="sm" @click="quotesOrded('date')"
           >per data</b-button
         >
         <b-button size="sm" @click="sortquote('reset')">reinicia</b-button>
       </b-col>
     </b-row>
-    <div class="quotes" v-if="dataQuotes.length > 0">
+    <!-- Renderitzat dels pressupostos -->
+    <div class="quotes">
       <b-list-group class="text-left">
-        <div class="list mb-2" v-for="(dataQuote, index) in dataQuotes" :key="index">
+        <div
+          class="list mb-2"
+          v-for="dataQuote in dataQuotes"
+          :key="dataQuote.id"
+        >
           <b-list-group-item
             >Pressupost: {{ dataQuote.quote }}</b-list-group-item
           >
@@ -52,20 +58,66 @@ export default {
   name: "TheQuotes",
   props: {
     dataQuotes: {
-      type: [],
+      // Recives the array of objects with all the quotes
+      type: Array,
       required: true,
     },
   },
+  data() {
+    return {
+      quoteSorted: [],
+    };
+  },
   filters: {
     formatdata: function (value) {
-      return value.toLocaleString();
+      return value.toLocaleString(); // Date output format
     },
     formatPrize: function (value) {
-      return `${value.toFixed(2)} €`;
+      return `${value.toFixed(2)} €`; // Amount output format
+    },
+  },
+  computed: {
+    quotesOrded: () => {
+      // switch (modif) {
+      //   case "reset":
+      //     return this.dataQuotes;
+      //     break;
+      //   case "alpha":
+      //     return this.dataQuotes.sort((a, b) => {
+      //       let nameA = a.name.toUpperCase();
+      //       let nameB = b.name.toUpperCase();
+      //       if(nameA < nameB){
+      //         return -1;
+      //       }
+      //       if(nameB > nameB){
+      //         return 1
+      //       }
+      //       return 0;
+      //       });
+      //     break;
+      //   case "date":
+      //     return this.dataQuotes.sort((a,b) => {
+      //       return a.date - b.date;
+      //     });
+      //     break;
+      //   default:
+          return this.dataQuotes;
+      // }  
+    
     },
   },
   methods: {
     sortquote(value) {
+      switch (value) {
+        case "quote":
+          return this.dataQuotes.sort(a);
+          break;
+        case "date":
+          return this.dataQuotes.sort((a, b) => a.date - b.date);
+          break;
+        case "reset":
+          return this.dataQuotes;
+      }
       this.$emit("sortQuote", value);
     },
   },
