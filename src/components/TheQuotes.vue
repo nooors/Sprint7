@@ -8,13 +8,13 @@
     </b-row>
     <b-row class="buttons mb-2" size="sm">
       <b-col class="d-flex justify-content-start">
-        <b-button class="mr-2" size="sm" @click="quotesOrded('alpha')"
+        <b-button class="mr-2" size="sm" @click="sortQuotes('alpha')"
           >alfabèticament</b-button
         >
-        <b-button class="mr-2" size="sm" @click="quotesOrded('date')"
-          >per data</b-button
+        <b-button class="mr-2" size="sm" @click="sortQuotes('price')"
+          >pel total</b-button
         >
-        <b-button size="sm" @click="sortquote('reset')">reinicia</b-button>
+        <b-button size="sm" @click="sortQuotes('reset')">reinicia</b-button>
       </b-col>
     </b-row>
     <!-- Renderitzat dels pressupostos -->
@@ -57,16 +57,58 @@
 export default {
   name: "TheQuotes",
   props: {
-    dataQuotes: {
-      // Recives the array of objects with all the quotes
-      type: Array,
-      required: true,
-    },
+    dataQuotes: Array,
   },
   data() {
     return {
-      quoteSorted: [],
+      copyDataQuotes: [],
     };
+  },
+  methods: {
+    sortQuotes: function (value) {
+      switch (value) {
+        case "alpha":
+          this.dataQuotes = this.dataQuotes.sort(function (a, b) {
+            let nameA = a.quote.toLowerCase();
+            let nameB = b.quote.toLowerCase();
+            if (nameA < nameB) {
+              return -1;
+            }
+            if (nameA > nameB) {
+              return 1;
+            }
+            return 0;
+          });
+          return this.dataQuotes;
+          break;
+        case "price":
+          this.dataQuotes = this.dataQuotes.sort(function (a, b) {
+            return a.total - b.total;
+          });
+          return this.dataQuotes;
+          break;
+        case "reset":
+          this.dataQuotes = this.copyDataQuotes;
+          return this.dataQuotes;
+      }
+    },
+  },
+  // watch: {
+  //   dataQuotes: function() {
+  //     console.log("WATCHED");
+  //     console.log(dataQuotes);
+  //     if (this.dataQuotes.length) {
+  //        return this.copyDataQuotes = this.dataQuotes.slice();
+  //     }
+  //   },
+  // },
+  computed: {
+    copyData: function () {
+      if (this.copyDataQuotes.length < this.dataQuotes.length) {
+        this.copyDataQuotes.push(this.dataQuotes[this.dataQuotes.length - 1]);
+      }
+      // return this.copyDataQuotes;
+    },
   },
   filters: {
     formatdata: function (value) {
@@ -74,51 +116,6 @@ export default {
     },
     formatPrize: function (value) {
       return `${value.toFixed(2)} €`; // Amount output format
-    },
-  },
-  computed: {
-    quotesOrded: () => {
-      // switch (modif) {
-      //   case "reset":
-      //     return this.dataQuotes;
-      //     break;
-      //   case "alpha":
-      //     return this.dataQuotes.sort((a, b) => {
-      //       let nameA = a.name.toUpperCase();
-      //       let nameB = b.name.toUpperCase();
-      //       if(nameA < nameB){
-      //         return -1;
-      //       }
-      //       if(nameB > nameB){
-      //         return 1
-      //       }
-      //       return 0;
-      //       });
-      //     break;
-      //   case "date":
-      //     return this.dataQuotes.sort((a,b) => {
-      //       return a.date - b.date;
-      //     });
-      //     break;
-      //   default:
-          return this.dataQuotes;
-      // }  
-    
-    },
-  },
-  methods: {
-    sortquote(value) {
-      switch (value) {
-        case "quote":
-          return this.dataQuotes.sort(a);
-          break;
-        case "date":
-          return this.dataQuotes.sort((a, b) => a.date - b.date);
-          break;
-        case "reset":
-          return this.dataQuotes;
-      }
-      this.$emit("sortQuote", value);
     },
   },
 };

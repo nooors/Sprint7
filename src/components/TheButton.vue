@@ -83,6 +83,8 @@ export default {
 .icon:hover {
   cursor: pointer;
 }
+
+
 /* input.form-control {
   width: 40%;
   text-align: left

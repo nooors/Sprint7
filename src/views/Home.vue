@@ -156,7 +156,6 @@ export default {
       }
     },
     saveQuote(event) {
-      console.log("llegando");
       event.preventDefault();
       if (this.isValidated()) {
         let services = [];
@@ -194,7 +193,6 @@ export default {
       if (this.options[0].panel == true) {
         this.options[0].panel = false;
       }
-      console.log(`resultat reset ${this.options[0].panel}`);
     },
   },
 };
