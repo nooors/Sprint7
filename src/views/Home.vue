@@ -197,16 +197,5 @@ export default {
   },
 };
 </script>
-<style lang="css">
-.home {
-  width: 100%;
-}
-.movin-enter-active,
-.movin-leave-active {
-  transition: opacity 0.3s ease;
-}
-.movin-enter,
-.movin-leave-to {
-  opacity: 0;
-}
+<style lang="css
 </style>
