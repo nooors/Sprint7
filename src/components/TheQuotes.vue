@@ -17,24 +17,41 @@
         <b-button size="sm" @click="sortQuotes('reset')">reinicia</b-button>
       </b-col>
     </b-row>
+    <b-row>
+      <b-col>
+         <b-input-group size="sm" class="mb-2">
+          <b-input-group-prepend is-text>
+            <b-icon icon="search"></b-icon>
+          </b-input-group-prepend>
+          <b-form-input type="search" placeholder="Busca pel nom del pressupost" v-model="query"></b-form-input>
+        </b-input-group>
+      </b-col>
+    </b-row>
+    <!-- renderitzat de la recerca -->
+    <!-- <div v-if="query"> -->
+      <!-- Si hi ha una recerca pinto la recerca -->
+    <!-- </div> -->
     <!-- Renderitzat dels pressupostos -->
     <div class="quotes">
+      <!-- Si no hi ha búsqueda pinto el llistat de pressupostos -->
       <b-list-group class="text-left">
         <div
           class="list mb-2"
-          v-for="dataQuote in dataQuotes"
-          :key="dataQuote.id"
+          v-for="copyDataQuote in copyDataQuotes"
+          :key="copyDataQuote.id"
         >
           <b-list-group-item
-            >Pressupost: {{ dataQuote.quote }}</b-list-group-item
+            >Pressupost: {{ copyDataQuote.quote }}</b-list-group-item
           >
-          <b-list-group-item>Usuari: {{ dataQuote.user }}</b-list-group-item>
+          <b-list-group-item
+            >Usuari: {{ copyDataQuote.user }}</b-list-group-item
+          >
           <b-list-group-item
             >Serveis contractats:
             <b-list-group>
               <div
                 class="list__services"
-                v-for="(serviceQuote, index) in dataQuote.choose"
+                v-for="(serviceQuote, index) in copyDataQuote.choose"
                 :key="index"
               >
                 <b-list-group-item>{{ serviceQuote }}</b-list-group-item>
@@ -42,10 +59,10 @@
             </b-list-group>
           </b-list-group-item>
           <b-list-group-item
-            >Preu: {{ dataQuote.total | formatPrize }}</b-list-group-item
+            >Preu: {{ copyDataQuote.total | formatPrize }}</b-list-group-item
           >
           <b-list-group-item
-            >Data: {{ dataQuote.date | formatdata }}</b-list-group-item
+            >Data: {{ copyDataQuote.date | formatdata }}</b-list-group-item
           >
         </div>
       </b-list-group>
@@ -62,13 +79,35 @@ export default {
   data() {
     return {
       copyDataQuotes: [],
+      query: "",
     };
+  },
+  computed: {
+    copyData: function () {
+      if (this.copyDataQuotes.length < this.dataQuotes.length) {
+        this.copyDataQuotes.push(this.dataQuotes[this.dataQuotes.length - 1]);
+      }
+      // return this.copyDataQuotes;
+    },
+    // searched: function(){
+    //   if(!this.query) return this.copyDataQuotes = this.dataQuotes.slice();
+    //   return this.copyDataQuotes = this.copyDataQuotes.filter(name => {
+    //     return name.quote.includes(this.query)})
+    // },
+  },
+  filters: {
+    formatdata: function (value) {
+      return value.toLocaleString(); // Date output format
+    },
+    formatPrize: function (value) {
+      return `${value.toFixed(2)} €`; // Amount output format
+    },
   },
   methods: {
     sortQuotes: function (value) {
       switch (value) {
         case "alpha":
-          this.dataQuotes = this.dataQuotes.sort(function (a, b) {
+          this.copyDataQuotes = this.copyDataQuotes.sort(function (a, b) {
             let nameA = a.quote.toLowerCase();
             let nameB = b.quote.toLowerCase();
             if (nameA < nameB) {
@@ -79,17 +118,17 @@ export default {
             }
             return 0;
           });
-          return this.dataQuotes;
+          return this.copyDataQuotes;
           break;
         case "price":
-          this.dataQuotes = this.dataQuotes.sort(function (a, b) {
+          this.copyDataQuotes = this.copyDataQuotes.sort(function (a, b) {
             return a.total - b.total;
           });
-          return this.dataQuotes;
+          return this.copyDataQuotes;
           break;
         case "reset":
-          this.dataQuotes = this.copyDataQuotes;
-          return this.dataQuotes;
+          this.copyDataQuotes = this.dataQuotes.slice();
+          return this.copyDataQuotes;
       }
     },
   },
@@ -102,22 +141,6 @@ export default {
   //     }
   //   },
   // },
-  computed: {
-    copyData: function () {
-      if (this.copyDataQuotes.length < this.dataQuotes.length) {
-        this.copyDataQuotes.push(this.dataQuotes[this.dataQuotes.length - 1]);
-      }
-      // return this.copyDataQuotes;
-    },
-  },
-  filters: {
-    formatdata: function (value) {
-      return value.toLocaleString(); // Date output format
-    },
-    formatPrize: function (value) {
-      return `${value.toFixed(2)} €`; // Amount output format
-    },
-  },
 };
 </script>
 
