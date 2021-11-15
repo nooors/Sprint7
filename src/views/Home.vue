@@ -79,7 +79,7 @@
         </b-row>
       </b-col>
       <b-col class="quotes">
-        <the-quotes :dataQuotes="quote" @sortQuote="sortedBy" />
+        <the-quotes :dataQuotes="quote" />
       </b-col>
     </b-row>
   </div>
@@ -133,9 +133,6 @@ export default {
         return 0;
       }
     },
-    // orderBy() {
-    //   return this.quote;
-    // },  // Trying to update data from The Panel component
   },
   methods: {
     dataPanel(pages, languages) {
@@ -171,11 +168,7 @@ export default {
         };
         this.quote.push(quote);
         this.resetForm();
-      }
-    },
-    sortedBy(value) {
-      if (value == "reset") {
-        this.orderBy = this.quote;
+        console.log(this.quote);
       }
     },
     isValidated() {

@@ -54,9 +54,6 @@ export default {
     modal() {
       this.$refs["my-modal"].show();
     },
-    // selectModal() {
-    //   this.$emit("modalSelectText")
-    // }
   },
 };
 </script>
@@ -84,9 +81,4 @@ export default {
   cursor: pointer;
 }
 
-
-/* input.form-control {
-  width: 40%;
-  text-align: left
-} */
 </style>
