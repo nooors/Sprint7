@@ -1,6 +1,6 @@
 <template>
-<!-- Header -->
-  <div class="home">
+  <!-- Header -->
+  <b-container class="home">
     <b-row class="text-left mt-3">
       <b-col>
         <h3>Pressupostos App</h3>
@@ -22,7 +22,6 @@
                 <b-form-checkbox
                   v-model="selected"
                   @change="whichIs(index)"
-
                   :value="index"
                   :aria-describedby="ariaDescribedby"
                   name="flavour-3a"
@@ -82,7 +81,7 @@
         <the-quotes :dataQuotes="quote" />
       </b-col>
     </b-row>
-  </div>
+  </b-container>
 </template>
 
 <script>
@@ -101,20 +100,27 @@ export default {
   data() {
     return {
       selected: [], // Store the index of selected fields
-      options: [   // Data for select form
-        { id:1, text: "Una pàgina web (500 €)", value: 500, panel: false },
-        { id:2, text: "Una consultoria SEO (300 €)", value: 300, panel: false },
+      options: [
+        // Data for select form
+        { id: 1, text: "Una pàgina web (500 €)", value: 500, panel: false },
         {
-          id:3, text: "Una campanya de Google Ads (200 €)",
+          id: 2,
+          text: "Una consultoria SEO (300 €)",
+          value: 300,
+          panel: false,
+        },
+        {
+          id: 3,
+          text: "Una campanya de Google Ads (200 €)",
           value: 200,
           panel: false,
         },
       ],
-      pages: 1,    // Data from The Panel component
-      languages: 1,   // Data from The Panel component 
-      formQuotes: ["Nom del pressupost", "Usuari"],    // Data for input labels
-      quoteData: [],    // Data from input form
-      quote: [],   // Array that stores the saved quotes. Each object represents one quote
+      pages: 1, // Data from The Panel component
+      languages: 1, // Data from The Panel component
+      formQuotes: ["Nom del pressupost", "Usuari"], // Data for input labels
+      quoteData: [], // Data from input form
+      quote: [], // Array that stores the saved quotes. Each object represents one quote
       filtersort: "",
     };
   },
@@ -172,9 +178,13 @@ export default {
       }
     },
     isValidated() {
-      if (!this.selected.length == 0 && this.quoteData.length == 2 &&  !this.quote.includes(this.quoteData[0])) {
+      if (
+        !this.selected.length == 0 &&
+        this.quoteData.length == 2 &&
+        !this.quote.includes(this.quoteData[0])
+      ) {
         return true;
-      } else {  
+      } else {
         return false;
       }
     },
@@ -190,5 +200,4 @@ export default {
   },
 };
 </script>
-<style lang="css
-</style>
+<style lang="css"></style>
