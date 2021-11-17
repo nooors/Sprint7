@@ -11,7 +11,7 @@
     <b-row>
       <!-- Services select form -->
       <b-col class="form">
-        <b-form @submit="saveQuote">
+        <b-form>
           <b-form-group v-slot="{ ariaDescribedby }">
             <b-row
               align-h="start"
@@ -60,15 +60,23 @@
             </b-col>
           </b-row>
           <b-row align-h="end">
-            <b-button
-              class="my-3"
-              type="submit"
+            <router-link
+              :to="{
+                query: {
+                  lan: languages,
+                  pag: pages,
+                  tot: total,
+                  opcions: selected,
+                },
+              }"
+              class="my-3 btn btn-secondary"
+              v-on:click.native="saveQuote"
               variant="secondary"
               size="sm"
               aria-required="required"
             >
               Guardar pressupost
-            </b-button>
+            </router-link>
           </b-row>
         </b-form>
         <b-row class="text-left">
@@ -121,7 +129,6 @@ export default {
       formQuotes: ["Nom del pressupost", "Usuari"], // Data for input labels
       quoteData: [], // Data from input form
       quote: [], // Array that stores the saved quotes. Each object represents one quote
-      filtersort: "",
     };
   },
   computed: {
