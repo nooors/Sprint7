@@ -29,7 +29,7 @@
                   {{ option.text }}
                 </b-form-checkbox>
               </b-col>
-              <b-row align-h="start" v-show="option.panel">
+              <b-row align-h="start" v-if="option.panel">
                 <b-col>
                   <transition name="movin">
                     <ThePanel @extrasPanel="dataPanel" />
