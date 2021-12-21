@@ -147,6 +147,17 @@ export default {
       }
     },
   },
+  watch: {
+    total: function () {
+      this.$router.replace({
+        query: {
+          lan: this.languages,
+          pag: this.pages,
+          opcions: this.selected,
+        },
+      });
+    },
+  },
   methods: {
     dataPanel(pages, languages) {
       this.pages = pages;
