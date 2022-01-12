@@ -67,6 +67,7 @@
                   pag: pages,
                   tot: total,
                   opcions: selected,
+                  panel: options[0].panel,
                 },
               }"
               class="my-3 btn btn-secondary"
@@ -124,12 +125,36 @@ export default {
           panel: false,
         },
       ],
-      pages: 1, // Data from The Panel component
-      languages: 1, // Data from The Panel component
+      pages: 0, // Data from The Panel component
+      languages: 0, // Data from The Panel component
       formQuotes: ["Nom del pressupost", "Usuari"], // Data for input labels
       quoteData: [], // Data from input form
       quote: [], // Array that stores the saved quotes. Each object represents one quote
     };
+  },
+  mounted() {
+    this.$nextTick(function () {
+      alert("hook");
+      alert(this.$route.query.opcions.length);
+      console.log(this.options);
+      if (
+        typeof this.$route.query.opcions != "undefined" &&
+        this.$route.query.opcions.length > 0
+      ) {
+        alert("Array loop in");
+        if (Array.isArray(this.$route.query.opcions)) {
+          this.$route.query.opcions.forEach((index) =>
+            this.selected.push(this.$route.query.opcions[index])
+          );
+        } else {
+          alert("String clause in");
+          this.selected.push(this.$route.query.opcions);
+        }
+        this.languages = this.$route.query.lan;
+        this.pages = this.$route.query.pag;
+        this.options[0].panel = this.$route.query.panel;
+      }
+    });
   },
   computed: {
     total() {
@@ -154,6 +179,7 @@ export default {
           lan: this.languages,
           pag: this.pages,
           opcions: this.selected,
+          panel: this.options[0].panel,
         },
       });
     },
