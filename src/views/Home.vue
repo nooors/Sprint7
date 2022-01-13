@@ -17,7 +17,7 @@
               align-h="start"
               v-for="(option, index) in options"
               :key="option.id"
-              >0
+            >
               <b-col class="d-flex justify-content-start">
                 <b-form-checkbox
                   v-model="selected"
