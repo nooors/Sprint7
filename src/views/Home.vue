@@ -17,7 +17,7 @@
               align-h="start"
               v-for="(option, index) in options"
               :key="option.id"
-            >
+              >0
               <b-col class="d-flex justify-content-start">
                 <b-form-checkbox
                   v-model="selected"
@@ -29,7 +29,7 @@
                   {{ option.text }}
                 </b-form-checkbox>
               </b-col>
-              <b-row align-h="start" v-if="option.panel">
+              <b-row align-h="start" v-if="options.panel">
                 <b-col>
                   <transition name="movin">
                     <ThePanel @extrasPanel="dataPanel" />
@@ -174,13 +174,14 @@ export default {
   },
   watch: {
     total: function () {
+      let query = Object.assign({}, this.$router.query);
+      alert(query);
+      console.log(query);
+      query.lan = this.languages;
+      query.pag = this.pages;
+      query.opcions = this.selected;
       this.$router.replace({
-        query: {
-          lan: this.languages,
-          pag: this.pages,
-          opcions: this.selected,
-          panel: this.options[0].panel,
-        },
+        query,
       });
     },
   },
@@ -190,13 +191,13 @@ export default {
       this.languages = languages;
     },
     whichIs: function (index) {
-      let visible = this.options[0].panel;
-      if (index === 0 && visible === false) {
+      alert(`index ${index} options[0] ${this.options[0].panel}`);
+      if (index === 0 && this.options[0].panel === false) {
         this.options[0].panel = true;
         this.pages = 1;
         this.languages = 1;
       }
-      if (index === 0 && visible === true) {
+      if (index === 0 && this.options[0].panel === true) {
         this.options[0].panel = false;
         this.pages = 0;
         this.languages = 0;
