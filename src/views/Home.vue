@@ -10,7 +10,7 @@
 
     <b-row>
       <!-- Services select form -->
-      <b-col class="form">
+      <b-col class="form" @submit="saveQuote">
         <b-form>
           <b-form-group v-slot="{ ariaDescribedby }">
             <b-row
@@ -29,7 +29,7 @@
                   {{ option.text }}
                 </b-form-checkbox>
               </b-col>
-              <b-row align-h="start" v-if="options.panel">
+              <b-row align-h="start" v-if="option.panel">
                 <b-col>
                   <transition name="movin">
                     <ThePanel @extrasPanel="dataPanel" />
@@ -60,24 +60,15 @@
             </b-col>
           </b-row>
           <b-row align-h="end">
-            <router-link
-              :to="{
-                query: {
-                  lan: languages,
-                  pag: pages,
-                  tot: total,
-                  opcions: selected,
-                  panel: options[0].panel,
-                },
-              }"
+            <b-button
+              type="submit"
               class="my-3 btn btn-secondary"
-              v-on:click.native="saveQuote"
               variant="secondary"
               size="sm"
               aria-required="required"
             >
               Guardar pressupost
-            </router-link>
+            </b-button>
           </b-row>
         </b-form>
         <b-row class="text-left">
@@ -132,29 +123,21 @@ export default {
       quote: [], // Array that stores the saved quotes. Each object represents one quote
     };
   },
-  mounted() {
-    this.$nextTick(function () {
-      alert("hook");
-      alert(this.$route.query.opcions.length);
-      console.log(this.options);
-      if (
-        typeof this.$route.query.opcions != "undefined" &&
-        this.$route.query.opcions.length > 0
-      ) {
-        alert("Array loop in");
-        if (Array.isArray(this.$route.query.opcions)) {
-          this.$route.query.opcions.forEach((index) =>
-            this.selected.push(this.$route.query.opcions[index])
-          );
-        } else {
-          alert("String clause in");
+  created() {
+    if (this.$route.query) {
+      this.languages = this.$route.query.lan;
+      this.pages = this.$route.query.pag;
+
+      if (this.$route.query.opcions) {
+        if (this.$route.query.opcions.length === 1) {
           this.selected.push(this.$route.query.opcions);
+        } else {
+          this.$route.query.opcions.forEach((element) =>
+            this.selected.push(element)
+          );
         }
-        this.languages = this.$route.query.lan;
-        this.pages = this.$route.query.pag;
-        this.options[0].panel = this.$route.query.panel;
       }
-    });
+    }
   },
   computed: {
     total() {
@@ -172,30 +155,29 @@ export default {
       }
     },
   },
-  watch: {
-    total: function () {
-      let query = Object.assign({}, this.$router.query);
-      alert(query);
-      console.log(query);
-      query.lan = this.languages;
-      query.pag = this.pages;
-      query.opcions = this.selected;
-      this.$router.replace({
-        query,
-      });
-    },
-  },
+  // watch: {
+  //   total: function () {
+  //     let query = Object.assign({}, this.$router.query);
+  //     console.log(query);
+  //     query.lan = this.languages;
+  //     query.pag = this.pages;
+  //     query.opcions = this.selected;
+  //     this.$router.replace({
+  //       query,
+  //     });
+  //   },
+  // },
   methods: {
     dataPanel(pages, languages) {
       this.pages = pages;
       this.languages = languages;
     },
     whichIs: function (index) {
-      alert(`index ${index} options[0] ${this.options[0].panel}`);
       if (index === 0 && this.options[0].panel === false) {
         this.options[0].panel = true;
         this.pages = 1;
         this.languages = 1;
+        return;
       }
       if (index === 0 && this.options[0].panel === true) {
         this.options[0].panel = false;
