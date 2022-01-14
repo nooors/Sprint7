@@ -138,7 +138,6 @@ export default {
   methods: {
     sortQuotes: function (value) {
       this.filterSort = value;
-      console.log(this.filterSort);
     },
   },
 };

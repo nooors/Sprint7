@@ -137,7 +137,6 @@ export default {
           );
         }
         if (this.selected.includes("0")) {
-          this.options[0].panel = true;
           this.whichIs(0);
         }
       }
@@ -205,7 +204,6 @@ export default {
         };
         this.quote.push(quote);
         this.resetForm();
-        console.log(this.quote);
       }
     },
     isValidated() {
