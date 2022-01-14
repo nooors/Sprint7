@@ -20,7 +20,7 @@
             query: {
               lan: 0,
               pag: 0,
-              opcions: [],
+              opcions: [0],
             },
           }"
           ><b-button>

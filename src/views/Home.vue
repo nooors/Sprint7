@@ -123,7 +123,7 @@ export default {
       quote: [], // Array that stores the saved quotes. Each object represents one quote
     };
   },
-  created() {
+  mounted() {
     if (this.$route.query) {
       this.languages = this.$route.query.lan;
       this.pages = this.$route.query.pag;
@@ -135,6 +135,10 @@ export default {
           this.$route.query.opcions.forEach((element) =>
             this.selected.push(element)
           );
+        }
+        if (this.selected.includes("0")) {
+          this.options[0].panel = true;
+          this.whichIs(0);
         }
       }
     }
@@ -154,19 +158,19 @@ export default {
         return 0;
       }
     },
+    query() {
+      return {
+        pag: this.pages,
+        lan: this.languages,
+        opcions: this.selected,
+      };
+    },
   },
-  // watch: {
-  //   total: function () {
-  //     let query = Object.assign({}, this.$router.query);
-  //     console.log(query);
-  //     query.lan = this.languages;
-  //     query.pag = this.pages;
-  //     query.opcions = this.selected;
-  //     this.$router.replace({
-  //       query,
-  //     });
-  //   },
-  // },
+  watch: {
+    query: function () {
+      this.$router.replace({ query: this.query }).catch(() => {});
+    },
+  },
   methods: {
     dataPanel(pages, languages) {
       this.pages = pages;
