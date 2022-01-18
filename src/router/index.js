@@ -1,21 +1,22 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import Welcome from '../views/Welcome.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Home from "../views/Home.vue";
+import Welcome from "../views/Welcome.vue";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/home',
-    name: 'Home',
-    component: Home
+    path: "/home",
+    name: "Home",
+    component: () =>
+      import(/* werbpackChunkName: "Home" */ "../views/Home.vue"),
   },
   {
-    path: '/',
-    name: 'Welcome',
-    component: Welcome
-  }
+    path: "/",
+    name: "Welcome",
+    component: Welcome,
+  },
   // {
   //   path: '/about',
   //   name: 'About',
@@ -24,13 +25,13 @@ const routes = [
   //   which is lazy-loaded when the route is visited.
   //   component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   // }
-]
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
   routes,
-  mode: 'history'
-})
+  mode: "history",
+});
 
-export default router
+export default router;

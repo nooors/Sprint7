@@ -14,7 +14,15 @@
     </b-row>
     <b-row align-h="end" class="mt-5">
       <b-col class="d-flex justify-content-end">
-        <router-link to="/home"
+        <router-link
+          :to="{
+            name: 'Home',
+            query: {
+              lan: 0,
+              pag: 0,
+              opcions: [0],
+            },
+          }"
           ><b-button>
             Accedir
           </b-button>
@@ -26,7 +34,7 @@
 
 <script>
 export default {
-  name: "Welcome"
+  name: "Welcome",
 };
 </script>
 

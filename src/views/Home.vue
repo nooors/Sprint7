@@ -10,8 +10,8 @@
 
     <b-row>
       <!-- Services select form -->
-      <b-col class="form">
-        <b-form @submit="saveQuote">
+      <b-col class="form" @submit="saveQuote">
+        <b-form>
           <b-form-group v-slot="{ ariaDescribedby }">
             <b-row
               align-h="start"
@@ -29,7 +29,7 @@
                   {{ option.text }}
                 </b-form-checkbox>
               </b-col>
-              <b-row align-h="start" v-show="option.panel">
+              <b-row align-h="start" v-if="option.panel">
                 <b-col>
                   <transition name="movin">
                     <ThePanel @extrasPanel="dataPanel" />
@@ -61,8 +61,8 @@
           </b-row>
           <b-row align-h="end">
             <b-button
-              class="my-3"
               type="submit"
+              class="my-3 btn btn-secondary"
               variant="secondary"
               size="sm"
               aria-required="required"
@@ -116,13 +116,31 @@ export default {
           panel: false,
         },
       ],
-      pages: 1, // Data from The Panel component
-      languages: 1, // Data from The Panel component
+      pages: 0, // Data from The Panel component
+      languages: 0, // Data from The Panel component
       formQuotes: ["Nom del pressupost", "Usuari"], // Data for input labels
       quoteData: [], // Data from input form
       quote: [], // Array that stores the saved quotes. Each object represents one quote
-      filtersort: "",
     };
+  },
+  mounted() {
+    if (this.$route.query) {
+      this.languages = this.$route.query.lan;
+      this.pages = this.$route.query.pag;
+
+      if (this.$route.query.opcions) {
+        if (this.$route.query.opcions.length === 1) {
+          this.selected.push(this.$route.query.opcions);
+        } else {
+          this.$route.query.opcions.forEach((element) =>
+            this.selected.push(element)
+          );
+        }
+        if (this.selected.includes("0")) {
+          this.whichIs(0);
+        }
+      }
+    }
   },
   computed: {
     total() {
@@ -139,6 +157,18 @@ export default {
         return 0;
       }
     },
+    query() {
+      return {
+        pag: this.pages,
+        lan: this.languages,
+        opcions: this.selected,
+      };
+    },
+  },
+  watch: {
+    query: function () {
+      this.$router.replace({ query: this.query }).catch(() => {});
+    },
   },
   methods: {
     dataPanel(pages, languages) {
@@ -146,13 +176,13 @@ export default {
       this.languages = languages;
     },
     whichIs: function (index) {
-      let visible = this.options[0].panel;
-      if (index === 0 && visible === false) {
+      if (index === 0 && this.options[0].panel === false) {
         this.options[0].panel = true;
         this.pages = 1;
         this.languages = 1;
+        return;
       }
-      if (index === 0 && visible === true) {
+      if (index === 0 && this.options[0].panel === true) {
         this.options[0].panel = false;
         this.pages = 0;
         this.languages = 0;
@@ -174,7 +204,6 @@ export default {
         };
         this.quote.push(quote);
         this.resetForm();
-        console.log(this.quote);
       }
     },
     isValidated() {
